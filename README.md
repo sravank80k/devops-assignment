@@ -36,3 +36,6 @@ Assesses
 - Kubernetes cluster configuration
 - Deployment pipeline automation
 - Git-controlled deployments 
+
+
+kubectl create configmap logstash-config --from-file=logstash.conf=logstash-kafka.conf

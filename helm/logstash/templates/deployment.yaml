@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  labels:
+    app: logstash
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+      - name: logstash
+        image: logstash:8.7.1
+        args: ["-f", "/usr/share/logstash/pipeline/logstash.conf"]
+        volumeMounts:
+          - name: config-volume
+            mountPath: /usr/share/logstash/pipeline
+        envFrom:
+          - configMapRef:
+              name: logstash
+        ports:
+        - containerPort: 5000
+        
+      - name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
+        envFrom:
+          - configMapRef:
+              name: elasticsearch
+        ports:
+        - containerPort: 9200
+        volumeMounts:
+          - mountPath: /usr/share/elasticsearch/data
+            name: elasticsearch-data
+      volumes:
+        - name: elasticsearch-data
+          emptyDir: {}
+        - name: config-volume
+          configMap:
+            name: logstash-config

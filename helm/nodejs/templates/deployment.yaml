@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs
+  labels:
+    app: nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      containers:
+      - name: nodejs
+        image: ch19vishal/nodejs-kafka:1.9
+        envFrom:
+          - configMapRef:
+              name: nodejs
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+  labels:
+    app: logstash
+spec:
+  type: ClusterIP
+  selector:
+    app: logstash
+  ports:
+    - protocol: TCP
+      name: http
+      port: 5000
+      targetPort: 5000
