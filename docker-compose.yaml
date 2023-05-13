@@ -1,0 +1,21 @@
+version: '2'
+services:
+  kafka:
+    image: bitnami/kafka:latest
+    networks:
+      - kafka-network
+    ports:
+      - 9092:9092
+    environment:
+      ALLOW_PLAINTEXT_LISTENER: yes
+      KAFKA_CFG_ZOOKEEPER_CONNECT:
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+  nodejs-kafka:
+    build: .
+    networks:
+      - kafka-network
+    environment:
+      KAFKA_ADDR: kafka:9092
+networks:
+  kafka-network:
+    driver: bridge

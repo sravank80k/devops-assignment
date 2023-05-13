@@ -1,0 +1,26 @@
+{
+  "name": "producer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && npm run start:tsc",
+    "start:tsnode": "ts-node ./src/index.ts",
+    "inspect:tsnode": "node --inspect --require ts-node/register ./src/index.ts",
+    "start-watch:tsnode": "nodemon --signal SIGHUP --watch './src/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node' ./src/index.ts",
+    "start-watch:tsnode-windows": "nodemon --signal SIGHUP --watch \"./src/**/*.ts\" --ignore \"app/**/*.spec.ts\" --exec \"ts-node\" ./src/index.ts"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4",
+    "randomstring": "^1.2.3",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/randomstring": "^1.1.8",
+    "@types/uuid": "^8.3.4",
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.3.5"
+  }
+}
