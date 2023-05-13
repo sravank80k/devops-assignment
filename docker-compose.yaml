@@ -16,6 +16,41 @@ services:
       - kafka-network
     environment:
       KAFKA_ADDR: kafka:9092
+    depends_on:
+      - kafka
+  logstash:
+    image: logstash:8.7.1
+    networks:
+      - kafka-network
+    ports:
+      - 5000:5000
+    volumes:
+      - D:/projects/devops-assignment/logstash-kafka.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTICSEARCH_HOST: elasticsearch
+    depends_on:
+      - kafka
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.4
+    networks:
+      - kafka-network
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+      http.max_content_length: "1000mb"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+
+volumes:
+  elasticsearch-data:
+  
 networks:
   kafka-network:
     driver: bridge
