@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nodejs
+  labels:
+    app: nodejs
+data:
+  KAFKA_ADDR: kafka:9092
