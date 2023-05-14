@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
       - name: logstash
-        image: logstash:8.7.1
-        args: ["-f", "/usr/share/logstash/pipeline/logstash.conf"]
+        image: logstash:7.17.10
         volumeMounts:
           - name: config-volume
             mountPath: /usr/share/logstash/pipeline
