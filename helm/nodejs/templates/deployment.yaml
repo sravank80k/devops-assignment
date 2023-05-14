@@ -14,12 +14,23 @@ spec:
       labels:
         app: nodejs
     spec:
+      initContainers:
+      - name: init-myservice
+        image: busybox:1.28
+        command:
+        - sh
+        - -c
+        - |
+          until nc -z kafka.test.svc.cluster.local 9092; do
+            echo "Waiting for kafka service to start";
+          done;
+          echo "Kafka service is up and running!";
       containers:
       - name: nodejs
-        image: ch19vishal/nodejs-kafka:1.9
+        image: sravank80k/nodejs-kafka:1.0.0
         envFrom:
-          - configMapRef:
-              name: nodejs
+        - configMapRef:
+            name: nodejs
         ports:
         - containerPort: 5000
         imagePullPolicy: Always
